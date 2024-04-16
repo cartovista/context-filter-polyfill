@@ -24,6 +24,11 @@ export function applySetterPatches(context: new () => CanvasRenderingContext2D) 
             return original!.get!.call(this);
           }
 
+          // prepare mirror context if missing
+          if (!this.canvas.__currentPathMirror) {
+            this.canvas.__currentPathMirror = createOffscreenContext(this);
+          }
+
           // read from mirror
           return this.canvas.__currentPathMirror[member];
         },
